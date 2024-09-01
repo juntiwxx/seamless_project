@@ -1,0 +1,63 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block extrahead %}
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pc_student.css' %}">
+
+  <!-- script -->
+    <script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+
+{% block content %}
+    {% if error_message %}
+        <div class="error">
+            {{ error_message|safe }}
+        </div>
+    {% elif allow_export %}
+        <div class="table-controls sticky-top">
+            <a href="{% url 'generate_csv' %}" class="btn-teal floating-download">Download (CSV)</a>
+        </div>
+    {% endif %}
+    {% if data %}
+
+        <h3>Data from CSV:</h3>
+        test
+        <button onclick="topFunction()" id="back-to-top" title="Go to top">Back to Top</button>
+    {% else %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" accept=".xlsx, .xls, .csv">
+            <button type="submit">Upload</button>
+        </form>
+    {% endif %}
+
+        <script>
+        // Get the button
+        let mybutton = document.getElementById("back-to-top");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+{% endblock %}
